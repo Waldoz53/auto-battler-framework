@@ -23,8 +23,14 @@
   border: none;
   height: auto;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column-reverse;
+}
+.log p {
+  width: 100%;
+  margin: 0;
 }
 
 .start {
-  margin-left: 8px;
 }

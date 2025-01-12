@@ -23,9 +23,13 @@ player.damage = 10
 player.attackSpeed = 1
 player.crit = 10
 
+// stores timers in an array so they can easily be disabled
+let timers = []
+// step counter for each action. makes it easier to read in the log
+let steps = 1;
+
 // Sets a bonus given to the player, since stats are equal, and I want the player to nearly always win at first
 // Eventually the player can choose a bonus
-// Crit chance is omitted from the bonuses for now
 function playerBonus() {
   let random = (Math.floor(Math.random() * 4)) + 1
   switch (random) {
@@ -54,35 +58,51 @@ enemy.currentHP = enemy.hp
 updateEnemyValues()
 
 function startFight() {
-  document.querySelector('.log').innerHTML = '&nbsp;'
-  playerDamage()
-  enemyDamage()
-  
+  if (player.currentHP > 0 && enemy.currentHP > 0) {
+    timers.push(setInterval(playerDamage, 1 / player.attackSpeed * 1000))
+    timers.push(setInterval(enemyDamage, 1 / enemy.attackSpeed * 1000))
+  }
 }
 
 async function playerDamage() {
   let random = (Math.floor(Math.random() * 100)) + 1
   if (random <= player.crit) {
     enemy.currentHP = enemy.currentHP - (player.damage * player.attackSpeed  * 2)
-    document.querySelector('.log').innerHTML += `You dealt a critical hit of ${player.damage * player.attackSpeed  * 2} damage!`
+    document.querySelector('.log').innerHTML += `<p>${steps} You dealt a critical hit of ${player.damage * player.attackSpeed  * 2} damage!</p>`
   } else {
     enemy.currentHP = enemy.currentHP - player.damage * player.attackSpeed
-    document.querySelector('.log').innerHTML += `You deal ${player.damage * player.attackSpeed} damage.`
+    document.querySelector('.log').innerHTML += `<p>${steps} You deal ${player.damage * player.attackSpeed} damage.</p>`
   }
 
   updateEnemyValues()
+  steps++;
+
+  if (player.currentHP > 0 && enemy.currentHP <= 0) {
+    for (let i = 0; i < timers.length; i++) {
+      clearTimeout(timers[i]);
+    }
+    document.querySelector('.log').innerHTML += "<p><strong>You won!</strong></p>"
+  }
 }
 async function enemyDamage() {
   let random = (Math.floor(Math.random() * 100)) + 1
   if (random <= enemy.crit) {
     player.currentHP = player.currentHP - (enemy.damage * enemy.attackSpeed * 2)
-    document.querySelector('.log').innerHTML += `\nEnemy dealt a critical hit of ${enemy.damage * enemy.attackSpeed * 2} damage!`
+    document.querySelector('.log').innerHTML += `<p>${steps} Enemy dealt a critical hit of ${enemy.damage * enemy.attackSpeed * 2} damage!</p>`
   } else {
     player.currentHP = player.currentHP - enemy.damage * enemy.attackSpeed
-    document.querySelector('.log').innerHTML += `\nEnemy deals ${enemy.damage * enemy.attackSpeed} damage.`
+    document.querySelector('.log').innerHTML += `<p>${steps} Enemy deals ${enemy.damage * enemy.attackSpeed} damage.</p>`
   }
   
   updatePlayerValues()
+  steps++;
+
+  if (enemy.currentHP > 0 && player.currentHP <= 0) {
+    for (let i = 0; i < timers.length; i++) {
+      clearTimeout(timers[i]);
+    }
+    document.querySelector('.log').innerHTML += "<p><strong>You were defeated by the enemy :(</strong></p>"
+  }
 }
 
 function updatePlayerValues() {
