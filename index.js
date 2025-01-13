@@ -67,11 +67,11 @@ function startFight() {
 async function playerDamage() {
   let random = (Math.floor(Math.random() * 100)) + 1
   if (random <= player.crit) {
-    enemy.currentHP = enemy.currentHP - (player.damage * player.attackSpeed  * 2)
-    document.querySelector('.log').innerHTML += `<p>${steps} You dealt a critical hit of ${player.damage * player.attackSpeed  * 2} damage!</p>`
+    enemy.currentHP = enemy.currentHP - (player.damage * 2)
+    document.querySelector('.log').innerHTML += `<p>${steps}. You dealt a critical hit of ${player.damage  * 2} damage!</p>`
   } else {
-    enemy.currentHP = enemy.currentHP - player.damage * player.attackSpeed
-    document.querySelector('.log').innerHTML += `<p>${steps} You deal ${player.damage * player.attackSpeed} damage.</p>`
+    enemy.currentHP = enemy.currentHP - player.damage
+    document.querySelector('.log').innerHTML += `<p>${steps}. You deal ${player.damage} damage.</p>`
   }
 
   updateEnemyValues()
@@ -87,11 +87,11 @@ async function playerDamage() {
 async function enemyDamage() {
   let random = (Math.floor(Math.random() * 100)) + 1
   if (random <= enemy.crit) {
-    player.currentHP = player.currentHP - (enemy.damage * enemy.attackSpeed * 2)
-    document.querySelector('.log').innerHTML += `<p>${steps} Enemy dealt a critical hit of ${enemy.damage * enemy.attackSpeed * 2} damage!</p>`
+    player.currentHP = player.currentHP - (enemy.damage * 2)
+    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy dealt a critical hit of ${enemy.damage * 2} damage!</p>`
   } else {
-    player.currentHP = player.currentHP - enemy.damage * enemy.attackSpeed
-    document.querySelector('.log').innerHTML += `<p>${steps} Enemy deals ${enemy.damage * enemy.attackSpeed} damage.</p>`
+    player.currentHP = player.currentHP - enemy.damage
+    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy deals ${enemy.damage} damage.</p>`
   }
   
   updatePlayerValues()
