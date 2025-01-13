@@ -106,10 +106,18 @@ async function enemyDamage() {
 }
 
 function updatePlayerValues() {
-  document.querySelector('.player').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.damage}\nAttack Speed: ${player.attackSpeed}\nCrit Chance: ${player.crit}`
+  document.querySelector('.player').querySelector('.text').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.damage}\nAttack Speed: ${player.attackSpeed}\nCrit Chance: ${player.crit}`
+  document.querySelector('.player').querySelector('.hp-bar').style.width = `${player.currentHP / player.hp * 100 - 1.75}%`
+  if (player.currentHP <= 0) {
+    document.querySelector('.player').querySelector('.hp-bar').style.width = `0px`
+  }
 }
 function updateEnemyValues() {
-  document.querySelector('.enemy').innerText = `HP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.damage}\nAttack Speed: ${enemy.attackSpeed}\nCrit Chance: ${enemy.crit}`
+  document.querySelector('.enemy').querySelector('.text').innerText = `HP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.damage}\nAttack Speed: ${enemy.attackSpeed}\nCrit Chance: ${enemy.crit}`
+  document.querySelector('.enemy').querySelector('.hp-bar').style.width = `${enemy.currentHP / enemy.hp * 100 - 1.75}%`
+  if (enemy.currentHP <= 0) {
+    document.querySelector('.enemy').querySelector('.hp-bar').style.width = `0px`
+  }
 }
 
 function reload() {
