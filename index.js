@@ -8,20 +8,19 @@
 ////// Player starts with a random stat boost (Damage, HP or attack speed, but not crit)
 ////// Damage should be output to the public log (not the console log)
 
-// Sets enemy stats
-const enemy = new Object();
-enemy.hp = 100
-enemy.damage = 10
-enemy.attackSpeed = 1
-enemy.crit = 10
-
-
 // Sets player stats
 const player = new Object();
 player.hp = 100
 player.damage = 10
 player.attackSpeed = 1
 player.crit = 10
+
+// Sets enemy stats
+const enemy = new Object();
+enemy.hp = 100
+enemy.damage = 10
+enemy.attackSpeed = 1
+enemy.crit = 15
 
 // stores timers in an array so they can easily be disabled
 let timers = []
@@ -78,9 +77,7 @@ async function playerDamage() {
   steps++;
 
   if (player.currentHP > 0 && enemy.currentHP <= 0) {
-    for (let i = 0; i < timers.length; i++) {
-      clearTimeout(timers[i]);
-    }
+    clearAllTimers()
     document.querySelector('.log').innerHTML += "<p><strong>You won!</strong></p>"
   }
 }
@@ -98,9 +95,7 @@ async function enemyDamage() {
   steps++;
 
   if (enemy.currentHP > 0 && player.currentHP <= 0) {
-    for (let i = 0; i < timers.length; i++) {
-      clearTimeout(timers[i]);
-    }
+    clearAllTimers()
     document.querySelector('.log').innerHTML += "<p><strong>You were defeated by the enemy :(</strong></p>"
   }
 }
@@ -116,7 +111,13 @@ function updateEnemyValues() {
   document.querySelector('.enemy').querySelector('.text').innerText = `HP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.damage}\nAttack Speed: ${enemy.attackSpeed}\nCrit Chance: ${enemy.crit}`
   document.querySelector('.enemy').querySelector('.hp-bar').style.width = `${enemy.currentHP / enemy.hp * 100 - 1.75}%`
   if (enemy.currentHP <= 0) {
-    document.querySelector('.enemy').querySelector('.hp-bar').style.width = `0px`
+    document.querySelector('.enemy').querySelector('.hp-bar').style.width = `1px`
+  }
+}
+
+function clearAllTimers() {
+  for (let i = 0; i < timers.length; i++) {
+    clearTimeout(timers[i]);
   }
 }
 
