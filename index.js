@@ -8,22 +8,27 @@
 ////// Player starts with a random stat boost (Damage, HP or attack speed, but not crit)
 ////// Damage should be output to the public log (not the console log)
 
+// weapons
+const defaultWeapon = new Object()
+defaultWeapon.name = "Basic Attack"
+defaultWeapon.damage = 5
+defaultWeapon.attackSpeed = 1.5
+defaultWeapon.crit = 5
+
 // Sets player stats
 const player = new Object();
 player.hp = 100
-player.damage = 10
-player.attackSpeed = 1
-player.crit = 10
+player.weapons = [];
+player.weapons.push(structuredClone(defaultWeapon))
 
 // Sets enemy stats
 const enemy = new Object();
 enemy.hp = 100
-enemy.damage = 10
-enemy.attackSpeed = 1
-enemy.crit = 15
+enemy.weapons = [];
+enemy.weapons.push(structuredClone(defaultWeapon))
 
 // stores timers in an array so they can easily be disabled
-let timers = []
+let timers = [];
 // step counter for each action. makes it easier to read in the log
 let steps = 1;
 
@@ -36,19 +41,19 @@ function playerBonus() {
       player.hp += 15
       break;
     case 2:
-      player.damage += 5
+      player.weapons[0].damage += 2
       break;
     case 3:
-      player.attackSpeed = 1.2
+      player.weapons[0].attackSpeed += .2
       break;
     case 4:
-      player.crit = 20
+      player.weapons[0].crit += 10
       break;
   }
 }
+playerBonus();
 
 // loads player
-playerBonus();
 player.currentHP = player.hp
 updatePlayerValues()
 
@@ -58,19 +63,19 @@ updateEnemyValues()
 
 function startFight() {
   if (player.currentHP > 0 && enemy.currentHP > 0) {
-    timers.push(setInterval(playerDamage, 1 / player.attackSpeed * 1000))
-    timers.push(setInterval(enemyDamage, 1 / enemy.attackSpeed * 1000))
+    timers.push(setInterval(playerDamage, 1 / player.weapons[0].attackSpeed * 1000, player.weapons[0].damage, player.weapons[0].crit, player.weapons[0].name))
+    timers.push(setInterval(enemyDamage, 1 / enemy.weapons[0].attackSpeed * 1000, enemy.weapons[0].damage, enemy.weapons[0].crit, enemy.weapons[0].name))
   }
 }
 
-async function playerDamage() {
+async function playerDamage(damage, crit, weaponName) {
   let random = (Math.floor(Math.random() * 100)) + 1
-  if (random <= player.crit) {
-    enemy.currentHP = enemy.currentHP - (player.damage * 2)
-    document.querySelector('.log').innerHTML += `<p>${steps}. You dealt a critical hit of ${player.damage  * 2} damage!</p>`
+  if (random <= crit) {
+    enemy.currentHP = enemy.currentHP - (damage * 2)
+    document.querySelector('.log').innerHTML += `<p>${steps}. Your ${weaponName} critically hit for ${damage  * 2} damage!</p>`
   } else {
-    enemy.currentHP = enemy.currentHP - player.damage
-    document.querySelector('.log').innerHTML += `<p>${steps}. You deal ${player.damage} damage.</p>`
+    enemy.currentHP = enemy.currentHP - damage
+    document.querySelector('.log').innerHTML += `<p>${steps}. Your ${weaponName} did ${damage} damage.</p>`
   }
 
   updateEnemyValues()
@@ -81,14 +86,14 @@ async function playerDamage() {
     document.querySelector('.log').innerHTML += "<p><strong>You won!</strong></p>"
   }
 }
-async function enemyDamage() {
+async function enemyDamage(damage, crit, weaponName) {
   let random = (Math.floor(Math.random() * 100)) + 1
-  if (random <= enemy.crit) {
-    player.currentHP = player.currentHP - (enemy.damage * 2)
-    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy dealt a critical hit of ${enemy.damage * 2} damage!</p>`
+  if (random <= crit) {
+    player.currentHP = player.currentHP - (damage * 2)
+    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy's ${weaponName} critically hit for ${damage * 2} damage!</p>`
   } else {
-    player.currentHP = player.currentHP - enemy.damage
-    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy deals ${enemy.damage} damage.</p>`
+    player.currentHP = player.currentHP - damage
+    document.querySelector('.log').innerHTML += `<p>${steps}. Enemy's ${weaponName} did ${damage} damage.</p>`
   }
   
   updatePlayerValues()
@@ -101,14 +106,14 @@ async function enemyDamage() {
 }
 
 function updatePlayerValues() {
-  document.querySelector('.player').querySelector('.text').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.damage}\nAttack Speed: ${player.attackSpeed}\nCrit Chance: ${player.crit}`
+  document.querySelector('.player').querySelector('.text').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.weapons[0].damage}\nAttack Speed: ${player.weapons[0].attackSpeed}\nCrit Chance: ${player.weapons[0].crit}`
   document.querySelector('.player').querySelector('.hp-bar').style.width = `${player.currentHP / player.hp * 100 - 1.75}%`
   if (player.currentHP <= 0) {
-    document.querySelector('.player').querySelector('.hp-bar').style.width = `0px`
+    document.querySelector('.player').querySelector('.hp-bar').style.width = `1px`
   }
 }
 function updateEnemyValues() {
-  document.querySelector('.enemy').querySelector('.text').innerText = `HP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.damage}\nAttack Speed: ${enemy.attackSpeed}\nCrit Chance: ${enemy.crit}`
+  document.querySelector('.enemy').querySelector('.text').innerText = `HP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.weapons[0].damage}\nAttack Speed: ${enemy.weapons[0].attackSpeed}\nCrit Chance: ${enemy.weapons[0].crit}`
   document.querySelector('.enemy').querySelector('.hp-bar').style.width = `${enemy.currentHP / enemy.hp * 100 - 1.75}%`
   if (enemy.currentHP <= 0) {
     document.querySelector('.enemy').querySelector('.hp-bar').style.width = `1px`
