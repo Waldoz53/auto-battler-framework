@@ -1,13 +1,3 @@
-// Pseudocode
-//// Player hits start button then
-////// Using combat stats (HP, damage, crit chance, attack speed)
-////// Default attack speed of 1 per 1 second
-////// Default damage of 10
-////// Default HP of 100
-////// Default crit chance of 10%
-////// Player starts with a random stat boost (Damage, HP or attack speed, but not crit)
-////// Damage should be output to the public log (not the console log)
-
 // weapons
 const defaultWeapon = new Object()
 defaultWeapon.name = "Basic Attack"
