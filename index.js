@@ -25,19 +25,19 @@ let steps = 1;
 // Sets a bonus given to the player, since stats are equal, and I want the player to nearly always win at first
 // Eventually the player can choose a bonus
 function playerBonus() {
-  let random = (Math.floor(Math.random() * 4)) + 1
+  let random = (Math.floor(Math.random() * 3)) + 1
   switch (random) {
     case 1:
-      player.hp += 15
+      player.hp += 10
       break;
     case 2:
-      player.weapons[0].damage += 2
+      player.weapons[0].damage += 1
       break;
     case 3:
-      player.weapons[0].attackSpeed += .2
+      player.weapons[0].attackSpeed += .1
       break;
     case 4:
-      player.weapons[0].crit += 10
+      // player.weapons[0].crit += 15
       break;
   }
 }
@@ -62,7 +62,7 @@ async function playerDamage(damage, crit, weaponName) {
   let random = (Math.floor(Math.random() * 100)) + 1
   if (random <= crit) {
     enemy.currentHP = enemy.currentHP - (damage * 2)
-    document.querySelector('.log').innerHTML += `<p>${steps}. Your ${weaponName} critically hit for ${damage  * 2} damage!</p>`
+    document.querySelector('.log').innerHTML += `<p>${steps}. Your ${weaponName} critically hit for ${damage * 2} damage!</p>`
   } else {
     enemy.currentHP = enemy.currentHP - damage
     document.querySelector('.log').innerHTML += `<p>${steps}. Your ${weaponName} did ${damage} damage.</p>`
@@ -116,6 +116,6 @@ function clearAllTimers() {
   }
 }
 
-function reload() {
+function newGame() {
   location.reload()
 }
