@@ -44,8 +44,8 @@ function startFight() {
   loadEnemyAndPlayer()
   
   if (player.currentHP > 0 && enemy.currentHP > 0) {
-    timers.push(setInterval(playerDamage, 1 / player.weapons[0].attackSpeed * 1000, player.weapons[0].damage, player.weapons[0].crit, player.weapons[0].name))
-    timers.push(setInterval(enemyDamage, 1 / enemy.weapons[0].attackSpeed * 1000, enemy.weapons[0].damage, enemy.weapons[0].crit, enemy.weapons[0].name))
+    timers.push(setInterval(playerDamage, 1 / player.weapons[0].attackSpeed * 1500, player.weapons[0].damage, player.weapons[0].crit, player.weapons[0].name))
+    timers.push(setInterval(enemyDamage, 1 / enemy.weapons[0].attackSpeed * 1500, enemy.weapons[0].damage, enemy.weapons[0].crit, enemy.weapons[0].name))
   }
 }
 
@@ -68,8 +68,8 @@ async function playerDamage(damage, crit, weaponName) {
       document.querySelector('.log').innerHTML += `<p>You've defeated all enemies and <strong>WON the game!</strong></p>`
       document.querySelector('.new-game').style.display = 'block'
     } else {
-      document.querySelector('.log').innerHTML += `<p><strong>You won! You gain ${level * 2} training points.</strong></p>`
-      trainingPoints = level * 2
+      document.querySelector('.log').innerHTML += `<p><strong>You won! You gain ${level + 2} training points.</strong></p>`
+      trainingPoints = level + 2
       level++;
       steps = 1
       document.querySelector('.start').style.display = 'none'
@@ -175,14 +175,14 @@ function loadNextEnemy() {
       enemy.weapons[0].attackSpeed = 3
       break;
     case 3:
-      enemy.hp = 250
+      enemy.hp = 150
       enemy.weapons[0].damage = 3
       enemy.weapons[0].attackSpeed = 2
       break;
     case 4:
-      enemy.hp = 350
-      enemy.weapons[0].damage = 2
-      enemy.weapons[0].attackSpeed = 5
+      enemy.hp = 200
+      enemy.weapons[0].damage = 50
+      enemy.weapons[0].attackSpeed = .5
       break;
     // case 5:
     //   enemy.hp = 125
