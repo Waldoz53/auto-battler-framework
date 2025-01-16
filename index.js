@@ -171,48 +171,48 @@ function loadNextEnemy() {
   switch (level) {
     case 2:
       enemy.hp = 125
-      enemy.weapons[0].damage = 2
-      enemy.weapons[0].attackSpeed = 3
+      // enemy.weapons[0].damage = 2
+      // enemy.weapons[0].attackSpeed = 3
       break;
     case 3:
       enemy.hp = 150
-      enemy.weapons[0].damage = 3
-      enemy.weapons[0].attackSpeed = 2
+      // enemy.weapons[0].damage = 3
+      // enemy.weapons[0].attackSpeed = 2
       break;
     case 4:
-      enemy.hp = 200
-      enemy.weapons[0].damage = 50
-      enemy.weapons[0].attackSpeed = .5
+      enemy.hp = 175
+      // enemy.weapons[0].damage = 50
+      // enemy.weapons[0].attackSpeed = .5
       break;
-    // case 5:
-    //   enemy.hp = 125
+    case 5:
+      enemy.hp = 200
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
-    // case 6:
-    //   enemy.hp = 125
+      break;
+    case 6:
+      enemy.hp = 225
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
-    // case 7:
-    //   enemy.hp = 125
+      break;
+    case 7:
+      enemy.hp = 250
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
-    // case 8:
-    //   enemy.hp = 125
+      break;
+    case 8:
+      enemy.hp = 275
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
-    // case 9:
-    //   enemy.hp = 125
+      break;
+    case 9:
+      enemy.hp = 300
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
-    // case 10:
-    //   enemy.hp = 125
+      break;
+    case 10:
+      enemy.hp = 350
     //   enemy.weapons[0].damage = 2
     //   enemy.weapons[0].attackSpeed = 3
-    //   break;
+      break;
   }
 }
