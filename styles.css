@@ -9,7 +9,7 @@
 .enemy, .player, .log-container {
   border: 1px solid black;
   padding: 2px;
-  height: 125px;
+  height: 150px;
   width: 100%;
 }
 .enemy, .player {
@@ -35,7 +35,7 @@
 }
 .player .hp-bar {}
 .player .text {
-  padding-top: 3em;
+  padding-top: 3.5em;
 }
 
 .log-container {
@@ -62,7 +62,9 @@
 .button-container {
   width: 300px;
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
-.start {
+.start, .new-game {
+  display: none;
 }
