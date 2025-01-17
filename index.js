@@ -2,7 +2,7 @@
 const defaultWeapon = new Object()
 defaultWeapon.name = "Basic Attack"
 defaultWeapon.damage = 5
-defaultWeapon.attackSpeed = 1.50
+defaultWeapon.attackSpeed = 1
 defaultWeapon.crit = 5
 
 // Sets player stats
@@ -44,8 +44,9 @@ function startFight() {
   loadEnemyAndPlayer()
   
   if (player.currentHP > 0 && enemy.currentHP > 0) {
-    timers.push(setInterval(playerDamage, 1 / player.weapons[0].attackSpeed * 1500, player.weapons[0].damage, player.weapons[0].crit, player.weapons[0].name))
-    timers.push(setInterval(enemyDamage, 1 / enemy.weapons[0].attackSpeed * 1500, enemy.weapons[0].damage, enemy.weapons[0].crit, enemy.weapons[0].name))
+    document.querySelector('.start').style.display = 'none'
+    timers.push(setInterval(playerDamage, 1 / player.weapons[0].attackSpeed * 1000, player.weapons[0].damage, player.weapons[0].crit, player.weapons[0].name))
+    timers.push(setInterval(enemyDamage, 1 / enemy.weapons[0].attackSpeed * 1000, enemy.weapons[0].damage, enemy.weapons[0].crit, enemy.weapons[0].name))
   }
 }
 
@@ -68,8 +69,8 @@ async function playerDamage(damage, crit, weaponName) {
       document.querySelector('.log').innerHTML += `<p>You've defeated all enemies and <strong>WON the game!</strong></p>`
       document.querySelector('.new-game').style.display = 'block'
     } else {
-      document.querySelector('.log').innerHTML += `<p><strong>You won! You gain ${level + 2} training points.</strong></p>`
-      trainingPoints = level + 2
+      document.querySelector('.log').innerHTML += `<p><strong>You won! You gain 2 training points.</strong></p>`
+      trainingPoints = 2
       level++;
       steps = 1
       document.querySelector('.start').style.display = 'none'
@@ -99,15 +100,14 @@ async function enemyDamage(damage, crit, weaponName) {
 }
 
 function updatePlayerValues() {
-  document.querySelector('.player').querySelector('.text').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.weapons[0].damage}\nAttack Speed: ${player.weapons[0].attackSpeed}\nCrit Chance: ${player.weapons[0].crit}%\nPlayer`
+  document.querySelector('.player').querySelector('.text').innerText = `HP: ${player.currentHP} / ${player.hp}\nDamage: ${player.weapons[0].damage}\nAttack Speed: ${player.weapons[0].attackSpeed.toFixed(2)}\nCrit Chance: ${player.weapons[0].crit}%\nPlayer`
   document.querySelector('.player').querySelector('.hp-bar').style.width = `${player.currentHP / player.hp * 100 - 1.75}%`
   if (player.currentHP <= 0) {
     document.querySelector('.player').querySelector('.hp-bar').style.width = `1px`
   }
 }
 function updateEnemyValues() {
-  document.querySelector('.enemy').querySelector('.text').innerText = `Level ${level} Enemy\nCrit Chance: ${enemy.weapons[0].crit}%\nAttack Speed: ${enemy.weapons[0].attackSpeed}\nDamage: ${enemy.weapons[0].damage}\nHP: ${enemy.currentHP} / ${enemy.hp}`
-  // document.querySelector('.enemy').querySelector('.text').innerText = `Level ${level} Enemy\nHP: ${enemy.currentHP} / ${enemy.hp}\nDamage: ${enemy.weapons[0].damage}\nAttack Speed: ${enemy.weapons[0].attackSpeed}\nCrit Chance: ${enemy.weapons[0].crit}%`
+  document.querySelector('.enemy').querySelector('.text').innerText = `Level ${level} Enemy\nDamage: ${enemy.weapons[0].damage}\nAttack Speed: ${enemy.weapons[0].attackSpeed.toFixed(2)}\nCrit Chance: ${enemy.weapons[0].crit}%\nHP: ${enemy.currentHP} / ${enemy.hp}`
   document.querySelector('.enemy').querySelector('.hp-bar').style.width = `${enemy.currentHP / enemy.hp * 100 - 1.75}%`
   if (enemy.currentHP <= 0) {
     document.querySelector('.enemy').querySelector('.hp-bar').style.width = `1px`
@@ -127,9 +127,10 @@ function newGame() {
 // NOTE: need to separately have a HP button and then also weapon ones
 function createTrainingButtons() {
   document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("hp")'>Improve HP (+10)</button>`
+  // ideally each button will also include a weapon label eg "Improve Weapon 1 Attack Speed"
   player.weapons.forEach((weapon, index) => {
-    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("damage", ${index})'>Improve Damage (+2)</button>`
-    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("attackSpeed", ${index})'>Improve Attack Speed (+0.3)</button>`
+    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("damage", ${index})'>Improve Damage (+1)</button>`
+    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("attackSpeed", ${index})'>Improve Attack Speed (+0.25)</button>`
     document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("crit", ${index})'>Improve Crit Chance (+5%)</button>`
   })
 }
@@ -140,9 +141,9 @@ function spendTrainingPoint(stat, weaponIndex) {
       player.hp += 10
       player.currentHP = player.hp
     } else if (stat == "damage") {
-      player.weapons[weaponIndex].damage += 2
+      player.weapons[weaponIndex].damage += 1
     } else if (stat == "attackSpeed") {
-      player.weapons[weaponIndex].attackSpeed += .30
+      player.weapons[weaponIndex].attackSpeed += .25
     } else if (stat == "crit") {
       if (player.weapons[weaponIndex].crit < 100) {
         player.weapons[weaponIndex].crit += 5
