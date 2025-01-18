@@ -22,6 +22,7 @@
   background: #d10606;
   position: absolute;
   z-index: -1;
+  transition: .5s;
 }
 
 .enemy {}

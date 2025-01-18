@@ -13,7 +13,7 @@ player.weapons.push(structuredClone(defaultWeapon))
 
 // Sets enemy stats
 const enemy = new Object();
-enemy.hp = 75
+enemy.hp = 100
 enemy.weapons = [];
 enemy.weapons.push(structuredClone(defaultWeapon))
 // TESTING: enemy stats
@@ -70,6 +70,7 @@ async function playerDamage(damage, crit, weaponName) {
       document.querySelector('.new-game').style.display = 'block'
     } else {
       document.querySelector('.log').innerHTML += `<p><strong>You won! You gain 2 training points.</strong></p>`
+      player.hp += 25
       trainingPoints = 2
       level++;
       steps = 1
@@ -126,10 +127,9 @@ function newGame() {
 
 // NOTE: need to separately have a HP button and then also weapon ones
 function createTrainingButtons() {
-  document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("hp")'>Improve HP (+10)</button>`
   // ideally each button will also include a weapon label eg "Improve Weapon 1 Attack Speed"
   player.weapons.forEach((weapon, index) => {
-    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("damage", ${index})'>Improve Damage (+1)</button>`
+    document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("damage", ${index})'>Improve Damage (+2)</button>`
     document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("attackSpeed", ${index})'>Improve Attack Speed (+0.25)</button>`
     document.querySelector('.button-container').innerHTML += `<button class="improve" onclick='spendTrainingPoint("crit", ${index})'>Improve Crit Chance (+5%)</button>`
   })
@@ -137,11 +137,8 @@ function createTrainingButtons() {
 createTrainingButtons()
 function spendTrainingPoint(stat, weaponIndex) {
   if (trainingPoints > 0) {
-    if (stat == 'hp') {
-      player.hp += 10
-      player.currentHP = player.hp
-    } else if (stat == "damage") {
-      player.weapons[weaponIndex].damage += 1
+    if (stat == "damage") {
+      player.weapons[weaponIndex].damage += 2
     } else if (stat == "attackSpeed") {
       player.weapons[weaponIndex].attackSpeed += .25
     } else if (stat == "crit") {
@@ -172,23 +169,23 @@ function loadNextEnemy() {
   switch (level) {
     case 2:
       enemy.hp = 125
-      // enemy.weapons[0].damage = 2
-      // enemy.weapons[0].attackSpeed = 3
+      enemy.weapons[0].damage = 3
+      enemy.weapons[0].attackSpeed = 3
       break;
     case 3:
       enemy.hp = 150
-      // enemy.weapons[0].damage = 3
+      enemy.weapons[0].damage = 4
       // enemy.weapons[0].attackSpeed = 2
       break;
     case 4:
       enemy.hp = 175
-      // enemy.weapons[0].damage = 50
-      // enemy.weapons[0].attackSpeed = .5
+      enemy.weapons[0].damage = 25
+      enemy.weapons[0].attackSpeed = .5
       break;
     case 5:
       enemy.hp = 200
-    //   enemy.weapons[0].damage = 2
-    //   enemy.weapons[0].attackSpeed = 3
+      enemy.weapons[0].damage = 20
+      enemy.weapons[0].attackSpeed = .75
       break;
     case 6:
       enemy.hp = 225
@@ -212,8 +209,8 @@ function loadNextEnemy() {
       break;
     case 10:
       enemy.hp = 350
-    //   enemy.weapons[0].damage = 2
-    //   enemy.weapons[0].attackSpeed = 3
+      enemy.weapons[0].damage = 30
+      enemy.weapons[0].attackSpeed = .75
       break;
   }
 }
